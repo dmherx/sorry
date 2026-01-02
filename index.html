@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>I'm Sorry</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, #3b0000, #000000 70%);
+      font-family: Georgia, 'Times New Roman', serif;
+      color: #e6e6e6;
+    }
+    .card {
+      max-width: 700px;
+      background: rgba(10, 10, 10, 0.9);
+      padding: 40px;
+      border-radius: 18px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.8), inset 0 0 40px rgba(120,0,0,0.15);
+      text-align: center;
+      border: 1px solid rgba(120, 0, 0, 0.3);
+    }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 22px;
+      color: #b30000;
+      letter-spacing: 1px;
+      text-shadow: 0 6px 18px rgba(179,0,0,0.25);
+    }
+    p {
+      font-size: 1.25rem;
+      line-height: 1.9;
+      margin-bottom: 20px;
+      color: #e0e0e0;
+      transition: transform 0.3s ease, text-shadow 0.3s ease;
+    }
+    .signature {
+      margin-top: 34px;
+      font-style: italic;
+      font-size: 1.25rem;
+      color: #b30000;
+      text-shadow: 0 6px 18px rgba(179,0,0,0.35);
+    }
+    footer {
+      margin-top: 22px;
+      font-size: 0.85rem;
+      color: #777;
+    }
+    .hidden { visibility: hidden; }
+    .cursor::after {
+      content: '▌';
+      margin-left: 4px;
+      animation: blink 1s infinite;
+      color: #b30000;
+    }
+    .typing {
+      text-shadow: 0 10px 28px rgba(179, 0, 0, 0.55);
+      transform: translateY(-2px);
+    }
+    .card p:hover {
+      text-shadow: 0 10px 28px rgba(179, 0, 0, 0.45);
+    }
+    #volumeSlider {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      z-index: 999;
+      width: 120px;
+    }
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1 class="cursor">I'm Truly Sorry</h1>
+
+    <p>
+      I know words don’t erase the pain I caused, but I need you to know that I’m
+      genuinely sorry for how I treated you. You didn’t deserve the way I acted,
+      the things I said, or the moments where I failed to show you the respect and
+      care you gave me.
+    </p>
+
+    <p>
+      I’ve spent a lot of time reflecting, and I see now how my actions hurt you.
+      I take full responsibility for that. There’s no excuse—only regret and a
+      real desire to grow into a better person than I was then.
+    </p>
+
+    <p>
+      You were always patient, thoughtful, and stronger than you probably realized.
+      I admired the way you cared, the way you laughed, and the warmth you brought
+      into even the simplest moments. I miss the nights playing games together,
+      joking around, and feeling like everything else could wait.
+    </p>
+
+    <p>
+      Mimi, those memories still mean a lot to me, and so do you.
+    </p>
+
+    <p>
+      I want you to know something important. I never came back to you when I was
+      down in the dumps or feeling lonely, because I never wanted to use you as a
+      place to land when life was hard. The truth is, it’s when things are going
+      well for me—when life is calm and I should feel complete—that I feel your
+      absence the most. That’s when the pain really hits, because I always imagined
+      you still being there, sharing those good moments with me.
+    </p>
+
+    <p>
+      I wanted you to always be here, Mimi.
+    </p>
+
+    <div class="signature hidden">— Toto</div>
+
+    <footer>
+      This page was made for Viviana Fleming.
+    </footer>
+  </div>
+
+  <input type="range" id="volumeSlider" min="0" max="100" value="50">
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    let player;
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('youtube-player', {
+        videoId: 'mv23MnaNvGM',
+        playerVars: { autoplay: 1, loop: 1, playlist: 'mv23MnaNvGM' }
+      });
+    }
+
+    const slider = document.getElementById('volumeSlider');
+    slider.addEventListener('input', () => {
+      if(player && player.setVolume) {
+        player.setVolume(slider.value);
+      }
+    });
+
+    const elements = document.querySelectorAll('.card p, .signature');
+    elements.forEach(el => {
+      el.dataset.text = el.innerHTML;
+      el.innerHTML = '';
+      el.classList.add('hidden');
+    });
+
+    let index = 0;
+    function typeNext() {
+      if (index >= elements.length) return;
+
+      const el = elements[index];
+      el.classList.remove('hidden');
+      el.classList.add('typing');
+      const text = el.dataset.text;
+      let char = 0;
+
+      const typer = setInterval(() => {
+        el.innerHTML = text.slice(0, char) + '<span class="cursor"></span>';
+        char++;
+        if (char > text.length) {
+          clearInterval(typer);
+          el.innerHTML = text;
+          el.classList.remove('typing');
+          index++;
+          setTimeout(typeNext, 800);
+        }
+      }, 35);
+    }
+
+    setTimeout(typeNext, 800);
+  </script>
+
+  <iframe id="youtube-player" width="0" height="0" src="https://www.youtube.com/embed/mv23MnaNvGM?autoplay=1&loop=1&playlist=mv23MnaNvGM" frameborder="0" allow="autoplay; encrypted-media"></iframe>
+
+</body>
+</html>
